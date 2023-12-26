@@ -1,12 +1,12 @@
-# Djikstra's algorithm
+# Dijkstra's algorithm
 
 ## Introduction
 
-Djikstra's algorithm is a pathfinding algorithm that finds the shortest path by calculating the shortest distance from the start node to all other nodes. The algorithm uses a priority queue to find the shortest path between two points.
+Dijkstra's algorithm is a pathfinding algorithm that finds the shortest path by calculating the shortest distance from the start node to all other nodes. The algorithm uses a priority queue to find the shortest path between two points.
 
 ## Installation
 
-To run the simulation, simply clone the repository and open the `index.html` file in your browser. Alternatively, you can visit the [GitHub Pages](https://ghostscypher.github.io/djikstra/src/index.html) for this repository.
+To run the simulation, simply clone the repository and open the `index.html` file in your browser. Alternatively, you can visit the [GitHub Pages](https://ghostscypher.github.io/dijkstra/src/index.html) for this repository.
 
 ## Explanation
 
@@ -61,7 +61,7 @@ The simulation is very simple to use. The simulation will start automatically wh
 
 ## Demo
 
-<img src="https://raw.githubusercontent.com/ghostscypher/djikstra/output/demo.gif" alt="Djikstra's_search_algorithm">
+<img src="https://raw.githubusercontent.com/ghostscypher/dijkstra/output/demo.gif" alt="Dijkstra's_search_algorithm">
 
 ## References
 
