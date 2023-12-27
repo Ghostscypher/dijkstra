@@ -508,7 +508,9 @@ class Dijkstra {
             let neighbor = neighbors[i];
 
             // If the neighbor is already visited then skip
-            if (neighbor.visited) {
+            if (neighbor.visited || neighbor.f < 0) {
+                neighbor.visited = true;
+
                 continue;
             }
 
@@ -528,7 +530,7 @@ class Dijkstra {
 
             while (current.previous) {
                 // Set this score
-                current.f = current.f + 10000;
+                current.f = -1;
                 current.visited = true;
 
                 // Get the previous cell
@@ -556,7 +558,8 @@ class Dijkstra {
                     let neighbor = neighbors[i];
 
                     // If the neighbor is already visited then skip
-                    if (neighbor.visited) {
+                    if (neighbor.visited || neighbor.f < 0) {
+                        neighbor.visited = true;
                         continue;
                     }
 
