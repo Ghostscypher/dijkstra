@@ -339,6 +339,7 @@ class Dijkstra {
 
         this.path = [];
         this.no_solution = false;
+        this.show_scores = false;
 
         // Stack
         this.stack = [];
@@ -672,6 +673,35 @@ class Dijkstra {
         }
     }
 
+    showScore() {
+        if (!this.show_scores) {
+            return;
+        }
+
+        push();
+        textSize(10);
+        fill(255, 255, 255, 100);
+        noStroke();
+
+        // For each cell in the maze, show the f,g,h values
+        for (let i = 0; i < this.col; i++) {
+            for (let j = 0; j < this.row; j++) {
+                let cell = maze[i][j];
+                let rounded_f = round(cell.f * 100) / 100;
+                let rounded_g = round(cell.g * 100) / 100;
+                let rounded_h = round(cell.h * 100) / 100;
+
+                textSize(10);
+                fill(255, 255, 255, 100);
+                text(`f: ${rounded_f}`, cell.i * cell.w + 5, cell.j * cell.w + 10);
+                text(`g: ${rounded_g}`, cell.i * cell.w + 5, cell.j * cell.w + 20);
+                text(`h: ${rounded_h}`, cell.i * cell.w + 5, cell.j * cell.w + 30);
+            }
+        }
+
+        pop();
+    }
+
     show() {
         // Draw the maze
         for (let i = 0; i < this.col; i++) {
@@ -700,20 +730,8 @@ class Dijkstra {
         // Show the path
         this.showPath();
 
-        // For each cell in the maze, show the f,g,h values
-        // for (let i = 0; i < this.col; i++) {
-        //     for (let j = 0; j < this.row; j++) {
-        //         let cell = maze[i][j];
-
-        //         push();
-        //         textSize(10);
-        //         fill(255, 255, 255, 100);
-        //         text(`f: ${cell.f}`, cell.i * cell.w + 5, cell.j * cell.w + 10);
-        //         text(`g: ${cell.g}`, cell.i * cell.w + 5, cell.j * cell.w + 20);
-        //         text(`h: ${cell.h}`, cell.i * cell.w + 5, cell.j * cell.w + 30);
-        //         pop();
-        //     }
-        // }
+        // Show score
+        this.showScore();
     }
 
 }

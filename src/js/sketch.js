@@ -148,6 +148,12 @@ function keyPressed() {
         // Reset the loop
         loop();
     }
+
+    if (key === 't' || key === 'T') {
+        dijkstra.show_scores = !dijkstra.show_scores;
+
+        draw();
+    }
 }
 
 let start_selected = false;

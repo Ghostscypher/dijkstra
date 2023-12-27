@@ -58,6 +58,7 @@ The simulation is very simple to use. The simulation will start automatically wh
 3. When the simulation is paused, we enter into the select mode. In the select mode, we can select the start node, the end node. The start node is selected using the left mouse button. The end node is selected using the right mouse button.
 4. The simulation can be resumed by pressing the `p` key. If we made any selection the simulation will start with the new selection. If we did not make any selection the simulation will resume with the previous selection.
 5. To toggle the walls on or off, press the `w` key. Note that whenever the walls are toggled on or off, the simulation will be reset.
+6. To toggle between displaying scores and not displaying scores, press the `t` key.
 
 ## Demo
 
