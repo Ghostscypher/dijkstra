@@ -413,7 +413,8 @@ class Dijkstra {
                 let cell = maze[i][j];
 
                 // Calculate the distance between the current cell and the end cell
-                cell.h = dist(cell.i, cell.j, this.end.i, this.end.j);
+                // cell.h = dist(cell.i, cell.j, this.end.i, this.end.j);
+                cell.h = abs(cell.i - this.end.i) + abs(cell.j - this.end.j);
 
                 // Replace the cell in the maze
                 maze[i][j] = cell;
@@ -508,10 +509,10 @@ class Dijkstra {
             neighbor.previous = current;
 
             // Show the visited cells
-            // neighbor.showVisited();
+            neighbor.showVisited();
 
             // Show the current cell
-            // neighbor.highlight();
+            neighbor.highlight();
         }
 
         // Get the neighbor with the lowest score
