@@ -369,7 +369,7 @@ class Dijkstra {
                 let probability_of_closing = 0.001;
 
                 // Based on the number of col X row we can reduce this probability
-                if (this.col * this.row > 100) {
+                if (this.col * this.row > 300) {
                     probability_of_closing = 0.0001;
                 }
 
@@ -453,7 +453,7 @@ class Dijkstra {
             this.no_solution = true;
             noLoop();
 
-            return;
+            return this.path;
         }
         // Get the current cell
         let current = this.stack.pop();
@@ -462,6 +462,7 @@ class Dijkstra {
         if (current === this.end) {
             // Get the path
             this.path = this.getPath(current);
+            this.stack = [];
 
             // Set the solved property to true
             this.solved = true;
@@ -469,7 +470,12 @@ class Dijkstra {
             // Stop the loop
             noLoop();
 
-            return;
+            return this.path;
+        }
+
+        // If current is already visited then skip
+        if (current.visited) {
+            return this.path;
         }
 
         // Get the neighbors of the current cell
@@ -483,7 +489,9 @@ class Dijkstra {
             let neighbor = neighbors[i];
 
             // If the neighbor is not visited then add it to the stack
-            if (neighbor.visited) {
+            if (neighbor.visited || neighbor.f < 0) {
+                neighbor.visited = true;
+
                 continue;
             }
 
@@ -495,14 +503,14 @@ class Dijkstra {
             // Update the score of the neighbor
             neighbor.f = current.f + neighbor.h;
 
-            // Set the previous of the neighbor to the current cell
+            // Add the neighbor to the stack
             neighbor.previous = current;
 
             // Show the visited cells
-            neighbor.showVisited();
+            // neighbor.showVisited();
 
             // Show the current cell
-            neighbor.highlight();
+            // neighbor.highlight();
         }
 
         // Get the neighbor with the lowest score
@@ -525,79 +533,8 @@ class Dijkstra {
             }
         }
 
-        // Insert the neighbor with the lowest score to the stack
-        if (lowest_score_index !== -1) {
-            this.stack.push(neighbors[lowest_score_index]);
-        }
-
-        // If index is -1 then go back to the previous cell
-        if (lowest_score_index === -1) {
-
-            while (current.previous) {
-                // Set this score
-                current.f = -1;
-                current.visited = true;
-
-                // Get the previous cell
-                let prev = current.previous;
-
-                // If previous is start node then we have no solution
-                if (!prev || prev === this.start) {
-                    this.no_solution = true;
-                    noLoop();
-
-                    return;
-                }
-
-                // Get the neighbor with the lowest score
-                // Loop over the prev and continually check the neighbors until
-                // we find a neighbor that is not visited
-                // If there is no neighbor then go back to the previous cell
-                let neighbors = prev.getNeighbors(maze);
-
-                // Get the neighbor with the lowest score
-                let lowest_score = Infinity;
-                let lowest_score_index = -1;
-
-                for (let i = 0; i < neighbors.length; i++) {
-                    let neighbor = neighbors[i];
-
-                    // If the neighbor is already visited then skip
-                    if (neighbor.visited || neighbor.f < 0) {
-                        neighbor.visited = true;
-                        continue;
-                    }
-
-                    if (neighbor.f < lowest_score) {
-                        lowest_score = neighbor.f;
-                        lowest_score_index = i;
-                    }
-                }
-
-                // If index is -1 then go back to the previous cell
-                if (lowest_score_index === -1) {
-                    current = prev;
-                    continue;
-                }
-
-                prev.visited = true;
-                this.stack.push(prev);
-
-                return;
-            }
-        }
-
         // Set the current cell to visited
         current.visited = true;
-
-        // If lowest_score_index is -1 then there is no solution
-        if (lowest_score_index === -1) {
-            console.log("No solution");
-            this.no_solution = true;
-            noLoop();
-
-            return this.path;
-        }
 
         // Get the path from the current cell
         let temp_path = this.getPath(current);
@@ -605,6 +542,23 @@ class Dijkstra {
         // Draw the path
         for (let i = 0; i < temp_path.length; i++) {
             temp_path[i].showCurrentPath();
+        }
+
+        // Insert the neighbor with the lowest score to the stack
+        if (lowest_score_index !== -1) {
+            neighbors[lowest_score_index].visited = false;
+            this.stack.push(neighbors[lowest_score_index]);
+        } else {
+            if (current.previous) {
+                current.f = -1;
+
+                // Add the previous cell to the stack
+                current.previous.visited = false;
+                this.stack.push(current.previous);
+                this.solve();
+
+                return this.path;
+            }
         }
 
         // Return the path
@@ -615,6 +569,8 @@ class Dijkstra {
         this.path = [];
         this.paths = [];
         this.no_solution = false;
+        this.solved = false;
+        this.stack = [];
 
         // Add the start to the stack
         this.stack.push(this.start);
@@ -643,7 +599,6 @@ class Dijkstra {
     }
 
     showStack() {
-
         for (let i = 0; i < this.paths.length; i++) {
             // If in path then skip
             if (this.path.includes(this.paths[i])) {
@@ -651,12 +606,7 @@ class Dijkstra {
             }
 
             // If in paths then highlight as open_ended
-            this.paths[i].highlight(this.no_solution);
-        }
-
-        // If no solution then stop the loop
-        if (this.no_solution) {
-            noLoop();
+            // this.paths[i].highlight(this.no_solution);
         }
     }
 
@@ -720,7 +670,7 @@ class Dijkstra {
         this.end.showEnd();
 
         // Show the frontier
-        this.showStack();
+        // this.showStack();
 
         // Show possible paths
         this.showPossiblePaths();
