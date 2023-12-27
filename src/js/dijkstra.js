@@ -369,7 +369,7 @@ class Dijkstra {
                 let probability_of_closing = 0.001;
 
                 // Based on the number of col X row we can reduce this probability
-                if (this.col * this.row > 300) {
+                if (this.col * this.row > 400) {
                     probability_of_closing = 0.0001;
                 }
 
@@ -465,6 +465,7 @@ class Dijkstra {
             this.stack = [];
 
             // Set the solved property to true
+            this.no_solution = false;
             this.solved = true;
 
             // Stop the loop
@@ -606,7 +607,7 @@ class Dijkstra {
             }
 
             // If in paths then highlight as open_ended
-            // this.paths[i].highlight(this.no_solution);
+            this.paths[i].highlight(this.no_solution);
         }
     }
 
@@ -670,7 +671,9 @@ class Dijkstra {
         this.end.showEnd();
 
         // Show the frontier
-        // this.showStack();
+        if (this.no_solution) {
+            this.showStack();
+        }
 
         // Show possible paths
         this.showPossiblePaths();
