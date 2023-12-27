@@ -339,6 +339,7 @@ class Dijkstra {
 
         this.path = [];
         this.no_solution = false;
+        this.solved = false;
         this.show_scores = false;
 
         // Stack
@@ -461,6 +462,9 @@ class Dijkstra {
         if (current === this.end) {
             // Get the path
             this.path = this.getPath(current);
+
+            // Set the solved property to true
+            this.solved = true;
 
             // Stop the loop
             noLoop();
@@ -596,13 +600,7 @@ class Dijkstra {
         }
 
         // Get the path from the current cell
-        let temp_path = [];
-
-        // If there is a path
-        while (current.previous) {
-            temp_path.push(current.previous);
-            current = current.previous;
-        }
+        let temp_path = this.getPath(current);
 
         // Draw the path
         for (let i = 0; i < temp_path.length; i++) {

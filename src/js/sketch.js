@@ -152,6 +152,7 @@ function keyPressed() {
     if (key === 't' || key === 'T') {
         dijkstra.show_scores = !dijkstra.show_scores;
 
+        // Loop once
         draw();
     }
 }
@@ -212,7 +213,7 @@ function draw() {
     drawGrid();
 
     // Solve the maze
-    if (!select_mode) {
+    if (!select_mode && !this.solved) {
         dijkstra.solve();
     }
 
